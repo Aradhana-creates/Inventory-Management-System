@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Priority?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox prefHeight="650.0" prefWidth="920.0" spacing="15.0" style="-fx-background-color: transparent;"
+      xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.pms.ui.SalesController">
+    <children>
+        <VBox spacing="2.0">
+            <children>
+                <Label text="Point of Sale (POS) &amp; Billing" textFill="#0f172a">
+                    <font>
+                        <Font name="System Bold" size="20.0" />
+                    </font>
+                </Label>
+                <Label text="Select warehouse, add items to cart, and process transactional customer checkouts" textFill="#64748b" style="-fx-font-size: 13;" />
+            </children>
+        </VBox>
+
+        <HBox spacing="15.0" VBox.vgrow="ALWAYS">
+            <!-- Left: Item Selection and Cart Table -->
+            <VBox HBox.hgrow="ALWAYS" spacing="15.0">
+                <children>
+                    <!-- Item Selection Bar -->
+                    <HBox spacing="12.0" alignment="BOTTOM_LEFT" style="-fx-background-color: #ffffff; -fx-padding: 15; -fx-background-radius: 8; -fx-border-color: #e2e8f0; -fx-border-radius: 8;">
+                        <children>
+                            <VBox spacing="4.0" HBox.hgrow="ALWAYS">
+                                <children>
+                                    <Label text="Warehouse" textFill="#334155" style="-fx-font-weight: bold; -fx-font-size: 12;" />
+                                    <ComboBox fx:id="warehouseComboBox" maxWidth="Infinity" promptText="Select warehouse" style="-fx-pref-height: 34;" />
+                                </children>
+                            </VBox>
+
+                            <VBox spacing="4.0" HBox.hgrow="ALWAYS">
+                                <children>
+                                    <HBox alignment="CENTER_LEFT">
+                                        <children>
+                                            <Label text="Product" textFill="#334155" style="-fx-font-weight: bold; -fx-font-size: 12;" />
+                                            <HBox HBox.hgrow="ALWAYS" />
+                                            <Label fx:id="availableStockLabel" text="Available: 0" textFill="#2563eb" style="-fx-font-size: 11; -fx-font-weight: bold;" />
+                                        </children>
+                                    </HBox>
+                                    <ComboBox fx:id="productComboBox" maxWidth="Infinity" promptText="Select product" style="-fx-pref-height: 34;" />
+                                </children>
+                            </VBox>
+
+                            <VBox spacing="4.0" prefWidth="100.0">
+                                <children>
+                                    <Label text="Unit Price" textFill="#334155" style="-fx-font-weight: bold; -fx-font-size: 12;" />
+                                    <TextField fx:id="unitPriceField" promptText="0.00" style="-fx-pref-height: 34;" />
+                                </children>
+                            </VBox>
+
+                            <VBox spacing="4.0" prefWidth="80.0">
+                                <children>
+                                    <Label text="Qty" textFill="#334155" style="-fx-font-weight: bold; -fx-font-size: 12;" />
+                                    <TextField fx:id="quantityField" promptText="1" style="-fx-pref-height: 34;" />
+                                </children>
+                            </VBox>
+
+                            <Button fx:id="addToCartButton" onAction="#handleAddToCart"
+                                    style="-fx-background-color: #10b981; -fx-text-fill: white; -fx-font-weight: bold; -fx-pref-height: 34; -fx-background-radius: 4; -fx-cursor: hand;"
+                                    text="➕ Add to Cart" />
+                        </children>
+                    </HBox>
+
+                    <!-- Cart Table -->
+                    <VBox VBox.vgrow="ALWAYS" spacing="10.0" style="-fx-background-color: #ffffff; -fx-padding: 15; -fx-background-radius: 8; -fx-border-color: #e2e8f0; -fx-border-radius: 8;">
+                        <children>
+                            <HBox alignment="CENTER_LEFT">
+                                <children>
+                                    <Label text="🛒 Current Cart Items" textFill="#0f172a">
+                                        <font>
+                                            <Font name="System Bold" size="14.0" />
+                                        </font>
+                                    </Label>
+                                    <HBox HBox.hgrow="ALWAYS" />
+                                    <Button fx:id="removeCartItemButton" onAction="#handleRemoveCartItem"
+                                            style="-fx-background-color: #fee2e2; -fx-text-fill: #dc2626; -fx-font-weight: bold; -fx-pref-height: 28; -fx-background-radius: 4; -fx-cursor: hand;"
+                                            text="Remove Selected" />
+                                    <Button fx:id="clearCartButton" onAction="#handleClearCart"
+                                            style="-fx-background-color: #f1f5f9; -fx-text-fill: #475569; -fx-pref-height: 28; -fx-background-radius: 4; -fx-cursor: hand; -fx-padding: 0 10;">
+                                        <HBox.margin>
+                                            <Insets left="8.0" />
+                                        </HBox.margin>
+                                        <text>Clear All</text>
+                                    </Button>
+                                </children>
+                            </HBox>
+
+                            <TableView fx:id="cartTable" VBox.vgrow="ALWAYS" style="-fx-background-radius: 4;">
+                                <columns>
+                                    <TableColumn fx:id="cartSkuCol" prefWidth="100.0" text="SKU" />
+                                    <TableColumn fx:id="cartNameCol" prefWidth="240.0" text="Product Name" />
+                                    <TableColumn fx:id="cartPriceCol" prefWidth="100.0" text="Unit Price" />
+                                    <TableColumn fx:id="cartQtyCol" prefWidth="80.0" text="Quantity" />
+                                    <TableColumn fx:id="cartSubtotalCol" prefWidth="120.0" text="Subtotal" />
+                                </columns>
+                            </TableView>
+                        </children>
+                    </VBox>
+                </children>
+            </VBox>
+
+            <!-- Right: Customer Info & Checkout Panel -->
+            <VBox prefWidth="300.0" spacing="15.0" style="-fx-background-color: #ffffff; -fx-padding: 20; -fx-background-radius: 8; -fx-border-color: #e2e8f0; -fx-border-radius: 8;">
+                <children>
+                    <Label text="Checkout Details" textFill="#0f172a">
+                        <font>
+                            <Font name="System Bold" size="16.0" />
+                        </font>
+                    </Label>
+
+                    <VBox spacing="4.0">
+                        <children>
+                            <Label text="Customer Name" textFill="#334155" style="-fx-font-weight: bold; -fx-font-size: 12;" />
+                            <TextField fx:id="customerNameField" promptText="Walk-in Customer" style="-fx-pref-height: 34;" />
+                        </children>
+                    </VBox>
+
+                    <VBox spacing="4.0">
+                        <children>
+                            <Label text="Customer Phone" textFill="#334155" style="-fx-font-weight: bold; -fx-font-size: 12;" />
+                            <TextField fx:id="customerPhoneField" promptText="Mobile number" style="-fx-pref-height: 34;" />
+                        </children>
+                    </VBox>
+
+                    <VBox VBox.vgrow="ALWAYS" />
+
+                    <!-- Total Display -->
+                    <VBox spacing="5.0" style="-fx-background-color: #f8fafc; -fx-padding: 15; -fx-background-radius: 6; -fx-border-color: #e2e8f0; -fx-border-radius: 6;">
+                        <children>
+                            <Label text="Grand Total" textFill="#64748b" style="-fx-font-size: 13;" />
+                            <Label fx:id="totalAmountLabel" text="₹0.00" textFill="#0f172a">
+                                <font>
+                                    <Font name="System Bold" size="26.0" />
+                                </font>
+                            </Label>
+                        </children>
+                    </VBox>
+
+                    <Button fx:id="checkoutButton" maxWidth="Infinity" onAction="#handleCheckout"
+                            style="-fx-background-color: #059669; -fx-text-fill: white; -fx-font-weight: bold; -fx-pref-height: 44; -fx-font-size: 14; -fx-background-radius: 6; -fx-cursor: hand;"
+                            text="💳 Process Checkout" />
+                </children>
+            </VBox>
+        </HBox>
+    </children>
+</VBox>

@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Priority?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox prefHeight="650.0" prefWidth="920.0" spacing="15.0" style="-fx-background-color: transparent;"
+      xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.pms.ui.InventoryController">
+    <children>
+        <VBox spacing="2.0">
+            <children>
+                <Label text="Inventory &amp; Stock Operations" textFill="#0f172a">
+                    <font>
+                        <Font name="System Bold" size="20.0" />
+                    </font>
+                </Label>
+                <Label text="Monitor warehouse stock levels and record transactional stock movements" textFill="#64748b" style="-fx-font-size: 13;" />
+            </children>
+        </VBox>
+
+        <HBox spacing="15.0" VBox.vgrow="ALWAYS">
+            <children>
+                <!-- Left: TabPane for Current Stock vs Audit Log -->
+                <VBox HBox.hgrow="ALWAYS" spacing="10.0" style="-fx-background-color: #ffffff; -fx-padding: 15; -fx-background-radius: 8; -fx-border-color: #e2e8f0; -fx-border-radius: 8;">
+                    <children>
+                        <TabPane VBox.vgrow="ALWAYS" tabClosingPolicy="UNAVAILABLE">
+                            <tabs>
+                                <Tab text="📦 Current Stock per Warehouse">
+                                    <content>
+                                        <VBox spacing="10.0" style="-fx-padding: 10 0 0 0;">
+                                            <children>
+                                                <TableView fx:id="inventoryTable" VBox.vgrow="ALWAYS">
+                                                    <columns>
+                                                        <TableColumn fx:id="invSkuCol" prefWidth="90.0" text="SKU" />
+                                                        <TableColumn fx:id="invProductNameCol" prefWidth="180.0" text="Product" />
+                                                        <TableColumn fx:id="invWarehouseCol" prefWidth="150.0" text="Warehouse" />
+                                                        <TableColumn fx:id="invQtyCol" prefWidth="80.0" text="Quantity" />
+                                                        <TableColumn fx:id="invStatusCol" prefWidth="110.0" text="Status" />
+                                                    </columns>
+                                                </TableView>
+                                            </children>
+                                        </VBox>
+                                    </content>
+                                </Tab>
+                                <Tab text="📋 Stock Movement Audit History">
+                                    <content>
+                                        <VBox spacing="10.0" style="-fx-padding: 10 0 0 0;">
+                                            <children>
+                                                <TableView fx:id="movementTable" VBox.vgrow="ALWAYS">
+                                                    <columns>
+                                                        <TableColumn fx:id="moveDateCol" prefWidth="120.0" text="Date &amp; Time" />
+                                                        <TableColumn fx:id="moveProductCol" prefWidth="150.0" text="Product" />
+                                                        <TableColumn fx:id="moveSourceCol" prefWidth="120.0" text="Warehouse" />
+                                                        <TableColumn fx:id="moveDestCol" prefWidth="110.0" text="Dest Warehouse" />
+                                                        <TableColumn fx:id="moveTypeCol" prefWidth="70.0" text="Type" />
+                                                        <TableColumn fx:id="moveQtyCol" prefWidth="60.0" text="Qty" />
+                                                        <TableColumn fx:id="moveRefCol" prefWidth="120.0" text="Reference" />
+                                                    </columns>
+                                                </TableView>
+                                            </children>
+                                        </VBox>
+                                    </content>
+                                </Tab>
+                            </tabs>
+                        </TabPane>
+                    </children>
+                </VBox>
+
+                <!-- Right: Stock Movement Transaction Form -->
+                <VBox prefWidth="320.0" spacing="12.0" style="-fx-background-color: #ffffff; -fx-padding: 20; -fx-background-radius: 8; -fx-border-color: #e2e8f0; -fx-border-radius: 8;">
+                    <children>
+                        <Label text="Record Stock Movement" textFill="#0f172a">
+                            <font>
+                                <Font name="System Bold" size="15.0" />
+                            </font>
+                        </Label>
+
+                        <VBox spacing="4.0">
+                            <children>
+                                <Label text="Product *" textFill="#334155" style="-fx-font-weight: bold; -fx-font-size: 12;" />
+                                <ComboBox fx:id="productComboBox" maxWidth="Infinity" promptText="Select product" style="-fx-pref-height: 32;" />
+                            </children>
+                        </VBox>
+
+                        <VBox spacing="4.0">
+                            <children>
+                                <Label text="Source Warehouse *" textFill="#334155" style="-fx-font-weight: bold; -fx-font-size: 12;" />
+                                <ComboBox fx:id="sourceWarehouseComboBox" maxWidth="Infinity" promptText="Select source warehouse" style="-fx-pref-height: 32;" />
+                            </children>
+                        </VBox>
+
+                        <VBox spacing="4.0">
+                            <children>
+                                <Label text="Movement Type *" textFill="#334155" style="-fx-font-weight: bold; -fx-font-size: 12;" />
+                                <ComboBox fx:id="movementTypeComboBox" maxWidth="Infinity" style="-fx-pref-height: 32;" />
+                            </children>
+                        </VBox>
+
+                        <VBox spacing="4.0">
+                            <children>
+                                <Label text="Destination Warehouse (TRANSFER only)" textFill="#334155" style="-fx-font-weight: bold; -fx-font-size: 12;" />
+                                <ComboBox fx:id="destWarehouseComboBox" maxWidth="Infinity" promptText="Select destination" style="-fx-pref-height: 32;" />
+                            </children>
+                        </VBox>
+
+                        <VBox spacing="4.0">
+                            <children>
+                                <Label text="Quantity *" textFill="#334155" style="-fx-font-weight: bold; -fx-font-size: 12;" />
+                                <TextField fx:id="quantityField" promptText="e.g. 10" style="-fx-pref-height: 32;" />
+                            </children>
+                        </VBox>
+
+                        <VBox spacing="4.0">
+                            <children>
+                                <Label text="Reference / Reason" textFill="#334155" style="-fx-font-weight: bold; -fx-font-size: 12;" />
+                                <TextField fx:id="referenceNoteField" promptText="e.g. Stock Arrival, Relocation" style="-fx-pref-height: 32;" />
+                            </children>
+                        </VBox>
+
+                        <VBox VBox.vgrow="ALWAYS" />
+
+                        <Button fx:id="recordMovementButton" maxWidth="Infinity" onAction="#handleRecordMovement"
+                                style="-fx-background-color: #3b82f6; -fx-text-fill: white; -fx-font-weight: bold; -fx-pref-height: 38; -fx-background-radius: 4; -fx-cursor: hand;"
+                                text="⚡ Commit Transaction" />
+                    </children>
+                </VBox>
+            </children>
+        </HBox>
+    </children>
+</VBox>
